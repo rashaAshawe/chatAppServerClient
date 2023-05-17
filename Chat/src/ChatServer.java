@@ -53,6 +53,7 @@ public class ChatServer extends javax.swing.JFrame {
                 BorderFactory.createLineBorder(new java.awt.Color(252, 157, 186), 2),
                 new EmptyBorder(5, 5, 5, 5)
         ));
+     
     }
 
     /**
@@ -114,7 +115,9 @@ public class ChatServer extends javax.swing.JFrame {
         jTextAreaChat.append("server: "+message+"\n");
         writer.flush();
         jTextAreaMessage.setText("");
-
+             if (message.equals("*exit*")) {
+                System.exit(0);
+            }
     }//GEN-LAST:event_jButtonSendActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened

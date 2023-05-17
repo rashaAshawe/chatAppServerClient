@@ -119,6 +119,9 @@ public class ChatClient extends javax.swing.JFrame {
 
         jTextAreaChat.append("client: " + message + "\n");
         jTextAreaMessage.setText("");
+          if (message.equals("*exit*")) {
+                System.exit(0);
+            }
     }//GEN-LAST:event_jButtonSendActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
