@@ -15,13 +15,44 @@ import java.util.logging.Logger;
  *
  * @author rasha
  */
+import javax.swing.BorderFactory;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+
 public class ChatServer extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ChatServer
-     */
     public ChatServer() {
         initComponents();
+        customizeUI();
+    }
+
+    private void customizeUI() {
+        // Set button size
+        jButtonSend.setPreferredSize(new java.awt.Dimension(150, 50));
+        // Set button border
+        jButtonSend.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+        // Set button background color (pink)
+        jButtonSend.setBackground(new java.awt.Color(255, 175, 201));
+        // Set button text color
+        jButtonSend.setForeground(java.awt.Color.WHITE);
+        // Set button font
+        jButtonSend.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
+
+        // Set text area background color
+        jTextAreaMessage.setBackground(java.awt.Color.WHITE); // Set background color to white
+        jTextAreaChat.setBackground(new java.awt.Color(255, 221, 235));
+        // Set text area text color
+        jTextAreaMessage.setForeground(java.awt.Color.BLACK);
+        jTextAreaChat.setForeground(java.awt.Color.BLACK);
+        // Set text area borders
+        jTextAreaMessage.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new java.awt.Color(252, 157, 186), 2),
+                new EmptyBorder(5, 5, 5, 5)
+        ));
+        jTextAreaChat.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new java.awt.Color(252, 157, 186), 2),
+                new EmptyBorder(5, 5, 5, 5)
+        ));
     }
 
     /**
@@ -41,7 +72,7 @@ public class ChatServer extends javax.swing.JFrame {
         jButtonSend = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("waiting for client");
+        setTitle("Server");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -79,7 +110,9 @@ public class ChatServer extends javax.swing.JFrame {
     private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendActionPerformed
         String message = jTextAreaMessage.getText();//get the text from txt araea
         writer.println(message);
+        
         jTextAreaChat.append("server: "+message+"\n");
+        writer.flush();
         jTextAreaMessage.setText("");
 
     }//GEN-LAST:event_jButtonSendActionPerformed
@@ -89,7 +122,8 @@ public class ChatServer extends javax.swing.JFrame {
             serversocket = new ServerSocket(3456);
             socket = serversocket.accept();
             reader = new Scanner(socket.getInputStream());
-            writer = new PrintWriter(socket.getOutputStream(), true);
+            writer = new PrintWriter(socket.getOutputStream());//
+            
             Thread mythread = new Thread(new Runnable() {
                 @Override
                 public void run() {
